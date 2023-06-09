@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Affirmation",
+    "slug": "Affirmation",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "Affirmation"
+}
