@@ -6,7 +6,7 @@ const NativeStack = createNativeStackNavigator();
 
 function Stack() {
     return(
-        <NativeStack.Navigator>
+        <NativeStack.Navigator screenOptions={{headerShown: false}}>
             <NativeStack.Screen name="Write" component={Write} />
         </NativeStack.Navigator>
     );
