@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import Realm from 'realm';
-import {createRealmContext} from '@realm/react';
 import Root from './navigation/Root';
+import { DBContext } from "./context";
 
 // Define your object model
 class Affirmation extends Realm.Object {
@@ -29,21 +29,20 @@ class Test extends Realm.Object {
     primaryKey: '_id',
   };
 }
-// Create a configuration object
-const realmConfig = {
-  schema: [Affirmation, Test],
-};
-// Create a realm context
-const { RealmProvider, useRealm, useObject, useQuery } = createRealmContext(realmConfig);
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [realm, setRealm] = useState(null);
   async function prepare() {
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const connection = await Realm.open({
+        path: "realmDB",
+        schema: [Affirmation, Test],
+      });
+      setRealm(connection);
     } catch (e) {
       console.warn(e);
     } finally {
@@ -61,11 +60,11 @@ export default function App() {
   }
   
   return (
-    <RealmProvider>
+    <DBContext.Provider value={realm}>
       <NavigationContainer>
           <Root />
           <StatusBar style="auto" />
       </NavigationContainer>
-    </RealmProvider>
+    </DBContext.Provider>
   );
 }
