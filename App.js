@@ -11,20 +11,22 @@ class Affirmation extends Realm.Object {
   static schema = {
     name: 'Affirmation',
     properties: {
-      _id: 'objectId',
+      _id: 'int',
       message: 'string',
       goal: 'int',
+      datas: 'Data[]',
     },
     primaryKey: '_id',
   };
 }
 
-class Test extends Realm.Object {
+class Data extends Realm.Object {
   static schema = {
-    name: 'Test',
+    name: 'Data',
     properties: {
-      _id: 'objectId',
-      message: 'string',
+      _id: 'int',
+      date: 'date',
+      success: {type: 'bool', default: false},
     },
     primaryKey: '_id',
   };
@@ -40,7 +42,8 @@ export default function App() {
     try {
       const connection = await Realm.open({
         path: "realmDB",
-        schema: [Affirmation, Test],
+        schema: [Affirmation, Data],
+        deleteRealmIfMigrationNeeded: true,
       });
       setRealm(connection);
     } catch (e) {
