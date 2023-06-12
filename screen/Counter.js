@@ -22,9 +22,11 @@ const Header = styled.View`
   width: 95%;
 `;
 const HeaderBox = styled.Pressable`
-  border: 2px;
+  width: 48%;
   border-radius: 30px;
-  padding: 10px 45px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
   background-color: ${(props) => props.selected ? '#dcdde1' : '#718093'};
 `;
 const HeaderText = styled.Text`
@@ -34,7 +36,6 @@ const HeaderText = styled.Text`
 `;
 const CounterBody = styled.View`
   flex: 9;
-  border: 2px;
   border-radius: 30px;
   width: 95%;
   background-color: #dcdde1;
@@ -59,7 +60,6 @@ const CounterFooter = styled.View`
 `;
 const AffirmationHeader = styled.View`
   flex: 1;
-  border: 2px;
   border-radius: 30px;
   width: 95%;
   background-color: #718093;
@@ -69,7 +69,6 @@ const AffirmationHeader = styled.View`
 `;
 const AffirmationBody = styled.View`
   flex: 8;
-  border: 2px;
   border-radius: 30px;
   width: 95%;
   background-color: #dcdde1;
@@ -127,7 +126,7 @@ function Counter({ navigation: { navigate } }) {
         :
         <>
           <AffirmationHeader>
-            <Text style={{fontSize: 20, color:'white'}}>Hello world</Text>
+            <Text style={{fontSize: 20, color:'white'}}>1. Hello world</Text>
           </AffirmationHeader>
           <AffirmationBody>
             <AffirmationBodyBox onPress={() => setCounterNum((prev) => prev + 1 )}>
