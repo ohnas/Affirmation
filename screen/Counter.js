@@ -1,16 +1,16 @@
-import React from 'react';
-import { Pressable, Text, Dimensions } from "react-native";
+import React, { useState } from 'react';
 import { styled } from 'styled-components/native';
+import { Fontisto } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { useDB } from '../context';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const Container = styled.View`
   flex: 1;
-  background-color: '#f5f6fa';
+  background-color: #f5f6fa;
   align-items: center;
   justify-content: center;
+  padding-top: 10%;
+  padding-bottom: 5%;
 `;
 
 const Header = styled.View`
@@ -18,34 +18,46 @@ const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: ${windowWidth}px;
-  height: ${Math.floor(windowHeight / 6 * 1)}px;
-  padding-left: 2px;
-  padding-right: 2px;
+  width: 95%;
 `;
 const HeaderBox = styled.View`
   border: 2px;
   border-radius: 30px;
-  padding: 10px 50px;
+  padding: 10px 45px;
+  background-color: #dcdde1;
 `;
 const HeaderText = styled.Text`
   font-size: 20px;
 `;
 const Body = styled.View`
-  flex: 4;
-  width: ${windowWidth}px;
-  height: ${Math.floor(windowHeight / 6 * 4)}px;
-  background-color: blue;
+  flex: 9;
+  border: 2px;
+  border-radius: 30px;
+  width: 95%;
+  background-color: #dcdde1;
+  align-items: center;
+  justify-content: center;
+`;
+const BodyBox = styled.Pressable`
+  flex: 6;
+  width: 95%;
+  align-items: center;
+  justify-content: center;
+`;
+const BodyText = styled.Text`
+  font-size: 100px;
 `;
 const Footer = styled.View`
   flex: 1;
-  width: ${windowWidth}px;
-  height: ${Math.floor(windowHeight / 6 * 1)}px;
-  background-color: green;
+  width: 95%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
 function Counter({ navigation: { navigate } }) {
   const db = useDB();
+  const [counterNum, setCounterNum] = useState(0);
   return(
     <Container>
       <Header>
@@ -57,14 +69,14 @@ function Counter({ navigation: { navigate } }) {
         </HeaderBox>
       </Header>
       <Body>
-        <Text>Counter</Text>
-        <Text>Affirmation</Text>
+        <BodyBox onPress={() => setCounterNum((prev) => prev + 1 )}>
+          <BodyText>{counterNum}</BodyText>
+        </BodyBox>
+        <Footer>
+          <Fontisto name="spinner-rotate-forward" size={36} color="black" style={{marginRight:10}} onPress={() => setCounterNum(0)} />
+          <AntDesign name="minuscircleo" size={36} color="black" style={{marginLeft:10}} onPress={() => setCounterNum((prev) => prev - 1 )} />
+        </Footer>
       </Body>
-      <Footer>
-        <Pressable onPress={() => navigate('Stack', {screen: 'Write'})}>
-          <Text>I'm pressable!</Text>
-        </Pressable>
-      </Footer>
     </Container>
   );
 }
