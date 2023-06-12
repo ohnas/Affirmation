@@ -66,7 +66,7 @@ export default function App() {
     <DBContext.Provider value={realm}>
       <NavigationContainer>
           <Root />
-          <StatusBar style="auto" />
+          <StatusBar style="dark" />
       </NavigationContainer>
     </DBContext.Provider>
   );

@@ -20,7 +20,7 @@ const Header = styled.View`
   align-items: center;
   width: 95%;
 `;
-const HeaderBox = styled.View`
+const HeaderBox = styled.Pressable`
   border: 2px;
   border-radius: 30px;
   padding: 10px 45px;
@@ -28,6 +28,8 @@ const HeaderBox = styled.View`
 `;
 const HeaderText = styled.Text`
   font-size: 20px;
+  font-weight: 600;
+  color: ${(props) => props.selected ? 'black' : 'white'};
 `;
 const Body = styled.View`
   flex: 9;
@@ -57,15 +59,16 @@ const Footer = styled.View`
 
 function Counter({ navigation: { navigate } }) {
   const db = useDB();
+  const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   return(
     <Container>
       <Header>
-        <HeaderBox>
-          <HeaderText>Counter</HeaderText>
+        <HeaderBox onPress={() => setSelected(false)}>
+          <HeaderText selected={selected}>Counter</HeaderText>
         </HeaderBox>
-        <HeaderBox>
-          <HeaderText>Affirmation</HeaderText>
+        <HeaderBox onPress={() => setSelected(true)}>
+          <HeaderText selected={!selected}>Affirmation</HeaderText>
         </HeaderBox>
       </Header>
       <Body>
@@ -74,7 +77,14 @@ function Counter({ navigation: { navigate } }) {
         </BodyBox>
         <Footer>
           <Fontisto name="spinner-rotate-forward" size={36} color="black" style={{marginRight:10}} onPress={() => setCounterNum(0)} />
-          <AntDesign name="minuscircleo" size={36} color="black" style={{marginLeft:10}} onPress={() => setCounterNum((prev) => prev - 1 )} />
+          <AntDesign name="minuscircleo" size={36} color="black" style={{marginLeft:10}} onPress={() => {
+            if(counterNum === 0) {
+              setCounterNum(0);
+            } else {
+              setCounterNum((prev) => prev - 1 );
+            }
+            }} 
+          />
         </Footer>
       </Body>
     </Container>
