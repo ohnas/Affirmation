@@ -1,6 +1,5 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import Counter from "../screen/Counter";
 import Calendar from "../screen/Calendar";
@@ -15,7 +14,7 @@ function Tabs() {
                 name="Counter" 
                 component={Counter}
                 options={{
-                    tabBarIcon: () => <MaterialCommunityIcons name="counter" size={24} color="black" />
+                    tabBarIcon: () => <Ionicons name="calculator-outline" size={24} color="black" />
                 }} 
             />
             <Tab.Screen 

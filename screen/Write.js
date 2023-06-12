@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components/native';
+import { useDB } from '../context';
 
 const Container = styled.View`
   flex: 1;
@@ -14,6 +15,7 @@ const TitleText = styled.Text`
 `;
 
 function Write() {
+  const db = useDB();
   return(
     <Container>
       <TitleBox>
