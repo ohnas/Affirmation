@@ -1,7 +1,7 @@
 import {Realm, createRealmContext} from '@realm/react';
 
 // Define your object model
-export class Affirmation extends Realm.Object {
+class Affirmation extends Realm.Object {
   static schema = {
     name: 'Affirmation',
     properties: {
@@ -14,7 +14,7 @@ export class Affirmation extends Realm.Object {
   };
 }
 
-export class Data extends Realm.Object {
+class Data extends Realm.Object {
   static schema = {
     name: 'Data',
     properties: {

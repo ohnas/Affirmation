@@ -3,25 +3,27 @@ import { styled } from 'styled-components/native';
 import { Fontisto } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { Text } from 'react-native';
+import { Text, Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 const Container = styled.View`
   flex: 1;
   background-color: #f5f6fa;
   align-items: center;
   justify-content: center;
-  padding-top: 10%;
-  padding-bottom: 5%;
+  padding-top: 30px;
+  padding-bottom: 10px;
 `;
 const Header = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
+  width: ${windowWidth * 0.95}px;
 `;
 const HeaderBox = styled.Pressable`
-  width: 48%;
+  flex: 1;
   border-radius: 30px;
   padding: 10px;
   justify-content: center;
@@ -35,15 +37,14 @@ const HeaderText = styled.Text`
 `;
 const CounterBody = styled.View`
   flex: 9;
+  width: ${windowWidth * 0.95}px;
   border-radius: 30px;
-  width: 95%;
   background-color: #dcdde1;
   align-items: center;
   justify-content: center;
 `;
 const CounterBodyBox = styled.Pressable`
   flex: 6;
-  width: 95%;
   align-items: center;
   justify-content: center;
 `;
@@ -52,31 +53,29 @@ const CounterBodyText = styled.Text`
 `;
 const CounterFooter = styled.View`
   flex: 1;
-  width: 95%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
 const AffirmationHeader = styled.View`
   flex: 1;
+  width: ${windowWidth * 0.95}px;
   border-radius: 30px;
-  width: 95%;
   background-color: #718093;
   align-items: center;
   justify-content: center;
-  margin-bottom: 3%;
+  margin-bottom: 13px;
 `;
 const AffirmationBody = styled.View`
   flex: 8;
   border-radius: 30px;
-  width: 95%;
+  width: ${windowWidth * 0.95}px;
   background-color: #dcdde1;
   align-items: center;
   justify-content: center;
 `;
 const AffirmationBodyBox = styled.Pressable`
   flex: 6;
-  width: 95%;
   align-items: center;
   justify-content: center;
 `;
@@ -85,7 +84,6 @@ const AffirmationBodyText = styled.Text`
 `;
 const AffirmationFooter = styled.View`
   flex: 1;
-  width: 95%;
   flex-direction: row;
   justify-content: center;
   align-items: center;

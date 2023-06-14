@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components/native';
 // import { useDB } from '../context';
-import { Alert, Text } from 'react-native';
-import { DBContext, Affirmation } from '../context';
+import { Alert, Text, TextInput } from 'react-native';
+import { DBContext } from '../context';
 
 const Container = styled.View`
   flex: 1;
@@ -22,25 +22,25 @@ const TitleText = styled.Text`
 `;
 const InputBox = styled.View`
   flex: 1;
-  flex-direction: row;
+  /* flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
   width: 95%;
 `;
 const MessageInput = styled.TextInput`
   border-bottom-width: 2px;
-  width: 68%;
+  /* width: 68%;
   font-size: 20px;
   padding-top: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 15px; */
   text-align: center;
 `;
 const GoalInput = styled.TextInput`
   border-bottom-width: 2px;
-  width: 28%;
+  /* width: 28%;
   font-size: 20px;
   padding-top: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 15px; */
   text-align: center;
 `;
 const AffirmaitonList = styled.View`
@@ -50,7 +50,8 @@ const AffirmaitonList = styled.View`
 `;
 
 function Write() {
-  const { useObject } = DBContext;
+  const { useRealm } = DBContext;
+  const realmDB = useRealm();
   const [message, setMessage] = useState("");
   const [goal, setGoal] = useState("");
   const onChangeMessage = (text) => setMessage(text);
@@ -61,35 +62,32 @@ function Write() {
   //   } else {
   //     realmDB.write(() => {
   //       realmDB.create("Affirmation", {
+  //         _id: 0,
   //         message: message,
   //         goal: Number(goal),
   //       });
   //     });
   //   }
   // };
-  // console.log(realmDB);
-  // const myTask = useObject(Affirmation, 0);
-  // console.log(myTask);
   return(
     <Container>
       <TitleBox>
         <TitleText>Affirmation List</TitleText>
       </TitleBox>
       <InputBox>
-        <MessageInput 
+        <MessageInput  
           placeholder='Affirmaiton'
           placeholderTextColor='#8395a7'
           onChangeText={onChangeMessage}
           value={message} 
-          inputMode='text'
           returnKeyType='done'
         />
         <GoalInput 
           placeholder='Goal' 
           placeholderTextColor='#8395a7'
           onChangeText={onChangeGoal}
-          value={goal} 
-          inputMode='numeric'
+          value={goal}
+          inputMode='numeric' 
           returnKeyType='done'
           // onSubmitEditing={onSubmit}
         />
