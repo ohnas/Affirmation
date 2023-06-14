@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components/native';
-// import { useDB } from '../context';
-import { Alert, Text, TextInput } from 'react-native';
+import { Alert, Text, TextInput, Dimensions } from 'react-native';
 import { DBContext } from '../context';
+
+const windowWidth = Dimensions.get('window').width;
 
 const Container = styled.View`
   flex: 1;
@@ -12,7 +13,7 @@ const Container = styled.View`
 `;
 const TitleBox = styled.View`
   flex: 1;
-  width: 95%;
+  width: ${windowWidth * 0.95}px;
   align-items: center;
   justify-content: center;
 `;
@@ -22,31 +23,33 @@ const TitleText = styled.Text`
 `;
 const InputBox = styled.View`
   flex: 1;
-  /* flex-direction: row;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between; */
-  width: 95%;
+  justify-content: space-between;
+  width: ${windowWidth * 0.95}px;
 `;
 const MessageInput = styled.TextInput`
+  flex: 3;
   border-bottom-width: 2px;
-  /* width: 68%;
   font-size: 20px;
   padding-top: 15px;
-  padding-bottom: 15px; */
+  padding-bottom: 15px;
   text-align: center;
+  margin-right: 5px;
 `;
 const GoalInput = styled.TextInput`
+  flex: 1;
   border-bottom-width: 2px;
-  /* width: 28%;
   font-size: 20px;
   padding-top: 15px;
-  padding-bottom: 15px; */
+  padding-bottom: 15px;
   text-align: center;
+  margin-left: 5px;
 `;
 const AffirmaitonList = styled.View`
   flex: 8;
-  width: 95%;
   border: 2px;
+  width: ${windowWidth * 0.95}px;
 `;
 
 function Write() {
