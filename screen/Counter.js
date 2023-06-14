@@ -3,7 +3,6 @@ import { styled } from 'styled-components/native';
 import { Fontisto } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { useDB } from '../context';
 import { Text } from 'react-native';
 
 const Container = styled.View`
@@ -93,7 +92,6 @@ const AffirmationFooter = styled.View`
 `;
 
 function Counter({ navigation: { navigate } }) {
-  const db = useDB();
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   return(

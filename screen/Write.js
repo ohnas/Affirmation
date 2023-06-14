@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components/native';
-import { useDB } from '../context';
+// import { useDB } from '../context';
 import { Alert, Text } from 'react-native';
+import { DBContext, Affirmation } from '../context';
 
 const Container = styled.View`
   flex: 1;
@@ -49,23 +50,26 @@ const AffirmaitonList = styled.View`
 `;
 
 function Write() {
-  const realmDB = useDB();
+  const { useObject } = DBContext;
   const [message, setMessage] = useState("");
   const [goal, setGoal] = useState("");
   const onChangeMessage = (text) => setMessage(text);
   const onChangeGoal = (num) => setGoal(num);
-  const onSubmit = () => {
-    if (message === "" || goal == "") {
-      return Alert.alert("Please complete form.");
-    } else {
-      realmDB.write(() => {
-        realmDB.create("Affirmation", {
-          message: message,
-          goal: Number(goal),
-        });
-      });
-    }
-  };
+  // const onSubmit = () => {
+  //   if (message === "" || goal == "") {
+  //     return Alert.alert("Please complete form.");
+  //   } else {
+  //     realmDB.write(() => {
+  //       realmDB.create("Affirmation", {
+  //         message: message,
+  //         goal: Number(goal),
+  //       });
+  //     });
+  //   }
+  // };
+  // console.log(realmDB);
+  // const myTask = useObject(Affirmation, 0);
+  // console.log(myTask);
   return(
     <Container>
       <TitleBox>
@@ -87,7 +91,7 @@ function Write() {
           value={goal} 
           inputMode='numeric'
           returnKeyType='done'
-          onSubmitEditing={onSubmit}
+          // onSubmitEditing={onSubmit}
         />
       </InputBox>
       <AffirmaitonList>
