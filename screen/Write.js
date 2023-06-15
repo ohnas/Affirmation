@@ -122,6 +122,11 @@ function Write() {
     )
     setMaxId(Math.max(...idList) + 1);
   }
+  function deleteObject(object) {
+    realmDB.write(() => {
+      realmDB.delete(object);
+    });
+  };
   function deleteAllData() {
     realmDB.write(() => {
       realmDB.deleteAll();
@@ -171,7 +176,7 @@ function Write() {
                 <AffirmationGoalText>{affirmationData.goal}</AffirmationGoalText>
               </AffirmationGoalBox>
               <AffirmationDelBtn>
-                <Ionicons name="ios-remove-circle-outline" size={36} color="black" />
+                <Ionicons name="ios-remove-circle-outline" size={36} color="red" onPress={() => deleteObject(affirmationData)} />
               </AffirmationDelBtn>
             </AffirmationBox>
           )
