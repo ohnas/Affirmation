@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components/native';
-import { Alert, Text, Dimensions } from 'react-native';
+import { Alert, Dimensions, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { DBContext, Affirmation } from '../context';
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -47,10 +49,46 @@ const GoalInput = styled.TextInput`
   text-align: center;
   margin-left: 5px;
 `;
-const AffirmaitonList = styled.ScrollView`
+const AffirmationList = styled.ScrollView`
   flex: 8;
-  border: 2px;
   width: ${windowWidth * 0.95}px;
+`;
+const AffirmationBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: ${windowWidth * 0.95}px;
+  margin-top: 5px;
+`;
+const AffirmationMessageBox = styled.View`
+  width: ${windowWidth * 0.68}px;
+  height: ${windowWidth * 0.15}px;
+  background-color: #dcdde1;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+`;
+const AffirmationMessageText = styled.Text`
+  font-size: 25px;
+  font-weight: 500;
+`;
+const AffirmationGoalBox = styled.View`
+  width: ${windowWidth * 0.15}px;
+  height: ${windowWidth * 0.15}px;
+  border-radius: ${(windowWidth * 0.15) * 0.5}px;
+  background-color: #dcdde1;
+  justify-content: center;
+  align-items: center;
+`;
+const AffirmationGoalText = styled.Text`
+  font-size: 25px;
+  font-weight: 500;
+`;
+const AffirmationDelBtn = styled.View`
+  width: ${windowWidth * 0.1}px;
+  height: ${windowWidth * 0.15}px;
+  justify-content: center;
+  align-items: center;
 `;
 
 function Write() {
@@ -89,7 +127,6 @@ function Write() {
       realmDB.deleteAll();
     });
   };
-  console.log(maxId);
   useEffect(() => {
     if(affirmationDatas.length === 0) {
       setMaxId(0);
@@ -121,9 +158,25 @@ function Write() {
           onSubmitEditing={onSubmit}
         />
       </InputBox>
-      <AffirmaitonList>
-        <Text>scrollview</Text>
-      </AffirmaitonList>
+      <AffirmationList>
+        {affirmationDatas.length === 0 ? 
+          <Text>No data.</Text>
+          :
+          affirmationDatas.map((affirmationData) => 
+            <AffirmationBox key={affirmationData._id}>
+              <AffirmationMessageBox>
+                <AffirmationMessageText>{affirmationData.message}</AffirmationMessageText>
+              </AffirmationMessageBox>
+              <AffirmationGoalBox>
+                <AffirmationGoalText>{affirmationData.goal}</AffirmationGoalText>
+              </AffirmationGoalBox>
+              <AffirmationDelBtn>
+                <Ionicons name="ios-remove-circle-outline" size={36} color="black" />
+              </AffirmationDelBtn>
+            </AffirmationBox>
+          )
+        }
+      </AffirmationList>
     </Container>
   );
 }
