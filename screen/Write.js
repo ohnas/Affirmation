@@ -62,33 +62,34 @@ function Write() {
   const [maxId, setMaxId] = useState(null);
   const onChangeMessage = (text) => setMessage(text);
   const onChangeGoal = (num) => setGoal(num);
-  // const onSubmit = () => {
-  //   if (message === "" || goal == "") {
-  //     return Alert.alert("Please complete form.");
-  //   } else {
-  //     realmDB.write(() => {
-  //       realmDB.create("Affirmation", {
-  //         _id: 0,
-  //         message: message,
-  //         goal: Number(goal),
-  //       });
-  //     });
-  //   }
-  // };
-  console.log(affirmationDatas);
+  function onSubmit() {
+    if (message === "" || goal == "") {
+      return Alert.alert("Please complete form.");
+    } else {
+      realmDB.write(() => {
+        realmDB.create("Affirmation", {
+          _id: maxId,
+          message: message,
+          goal: Number(goal),
+        });
+      });
+      setMessage("");
+      setGoal("");
+    }
+  };
   function getMaxId() {
     let idList = [];
     affirmationDatas.map((affirmationData) => 
       idList.push(affirmationData._id)
     )
-    setMaxId(Math.max(...idList));
+    setMaxId(Math.max(...idList) + 1);
   }
-  console.log(maxId);
-  const deleteAllData = () => {
+  function deleteAllData() {
     realmDB.write(() => {
       realmDB.deleteAll();
     });
   };
+  console.log(maxId);
   useEffect(() => {
     if(affirmationDatas.length === 0) {
       setMaxId(0);
@@ -117,7 +118,7 @@ function Write() {
           value={goal}
           keyboardType='number-pad'
           returnKeyType='done'
-          // onSubmitEditing={onSubmit}
+          onSubmitEditing={onSubmit}
         />
       </InputBox>
       <AffirmaitonList>
