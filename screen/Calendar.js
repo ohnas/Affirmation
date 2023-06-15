@@ -10,9 +10,9 @@ const Container = styled.View`
 `;
 
 function Calendar() {
-    return(
-        <Container><Text>Calendar</Text></Container>
-    );
+  return(
+      <Container><Text>Calendar</Text></Container>
+  );
 }
 
 export default Calendar;

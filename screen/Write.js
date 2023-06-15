@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components/native';
-import { Alert, Text, TextInput, Dimensions } from 'react-native';
-import { DBContext } from '../context';
+import { Alert, Text, Dimensions } from 'react-native';
+import { DBContext, Affirmation } from '../context';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -21,6 +21,7 @@ const TitleText = styled.Text`
   font-size: 20px;
   font-weight: 600;
 `;
+const TempDelBtn = styled.Button``;
 const InputBox = styled.View`
   flex: 1;
   flex-direction: row;
@@ -46,17 +47,19 @@ const GoalInput = styled.TextInput`
   text-align: center;
   margin-left: 5px;
 `;
-const AffirmaitonList = styled.View`
+const AffirmaitonList = styled.ScrollView`
   flex: 8;
   border: 2px;
   width: ${windowWidth * 0.95}px;
 `;
 
 function Write() {
-  const { useRealm } = DBContext;
+  const { useRealm, useQuery } = DBContext;
   const realmDB = useRealm();
+  const affirmationDatas = useQuery(Affirmation);
   const [message, setMessage] = useState("");
   const [goal, setGoal] = useState("");
+  const [maxId, setMaxId] = useState(null);
   const onChangeMessage = (text) => setMessage(text);
   const onChangeGoal = (num) => setGoal(num);
   // const onSubmit = () => {
@@ -72,10 +75,32 @@ function Write() {
   //     });
   //   }
   // };
+  console.log(affirmationDatas);
+  function getMaxId() {
+    let idList = [];
+    affirmationDatas.map((affirmationData) => 
+      idList.push(affirmationData._id)
+    )
+    setMaxId(Math.max(...idList));
+  }
+  console.log(maxId);
+  const deleteAllData = () => {
+    realmDB.write(() => {
+      realmDB.deleteAll();
+    });
+  };
+  useEffect(() => {
+    if(affirmationDatas.length === 0) {
+      setMaxId(0);
+    } else {
+      getMaxId();
+    }
+  }, [affirmationDatas]);
   return(
     <Container>
       <TitleBox>
         <TitleText>Affirmation List</TitleText>
+        <TempDelBtn title='Delete all data' onPress={deleteAllData} />
       </TitleBox>
       <InputBox>
         <MessageInput  
@@ -90,13 +115,13 @@ function Write() {
           placeholderTextColor='#8395a7'
           onChangeText={onChangeGoal}
           value={goal}
-          inputMode='numeric' 
+          keyboardType='number-pad'
           returnKeyType='done'
           // onSubmitEditing={onSubmit}
         />
       </InputBox>
       <AffirmaitonList>
-        <Text>FlatList</Text>
+        <Text>scrollview</Text>
       </AffirmaitonList>
     </Container>
   );
