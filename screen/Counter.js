@@ -5,6 +5,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, Dimensions, Alert } from 'react-native';
 import { DBContext, Affirmation } from '../context';
+import AffirmationMessage from '../components/AffirmationMessage';
+import AffirmationGoal from '../components/AffirmationGoal';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -46,6 +48,7 @@ const CounterBody = styled.View`
 `;
 const CounterBodyBox = styled.Pressable`
   flex: 6;
+  width: ${windowWidth * 0.9}px;
   align-items: center;
   justify-content: center;
 `;
@@ -77,6 +80,7 @@ const AffirmationBody = styled.View`
 `;
 const AffirmationBodyBox = styled.Pressable`
   flex: 6;
+  width: ${windowWidth * 0.9}px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -95,13 +99,12 @@ function Counter({ navigation: { navigate } }) {
   const { useRealm, useQuery } = DBContext;
   const realmDB = useRealm();
   const affirmationDatas = useQuery(Affirmation);
-  const ids = affirmationDatas.map((obj) => obj._id);
-  console.log(affirmationDatas);
-  console.log(ids);
+  const notAchievedAffirmationDatas = affirmationDatas.filtered('datas.@size == 0');
+  const notAchievedAffirmationDatasLength = notAchievedAffirmationDatas.length - 1;
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   const [affirmationNum, setAffirmationNum] = useState(0);
-  const firstData = affirmationDatas[0];
+  const [affirmationData, setAffirmationData] = useState(notAchievedAffirmationDatas[0]);
   // function handleAffirmationData() {
   //   realmDB.write(() => {
   //     firstData['datas'].push({
@@ -111,11 +114,10 @@ function Counter({ navigation: { navigate } }) {
   //   });
   // }
   useEffect(() => {
-    if(affirmationNum === firstData.goal) {
-      console.log('save?')
-      // handleAffirmationData();
-    } else {
-      console.log(affirmationNum);
+    let num = 0;
+    if(affirmationNum === affirmationData.goal) {
+      num += 1;
+      setAffirmationData(notAchievedAffirmationDatas[num])
     }
   }, [affirmationNum]);
   return(
@@ -151,17 +153,17 @@ function Counter({ navigation: { navigate } }) {
             {affirmationDatas.length === 0 ? 
               <Text style={{fontSize: 20, color:'white'}}>No data.</Text>
               :
-              <Text style={{fontSize: 20, color:'white'}}>{affirmationDatas[0].message}</Text>
+              <AffirmationMessage message={affirmationData.message} />
             }
           </AffirmationHeader>
           <AffirmationBody>
             <AffirmationBodyBox onPress={() => setAffirmationNum((prev) => prev + 1 )}>
-              <AffirmationBodyText>{counterNum}</AffirmationBodyText>
+              <AffirmationBodyText>{affirmationNum}</AffirmationBodyText>
               <AffirmationBodyText>/</AffirmationBodyText>
               {affirmationDatas.length === 0 ? 
                 <AffirmationBodyText>Goal</AffirmationBodyText>
                 :
-                <AffirmationBodyText>{affirmationDatas[0].goal}</AffirmationBodyText>
+                <AffirmationGoal goal={affirmationData.goal} />
               }
             </AffirmationBodyBox>
             <AffirmationFooter>
