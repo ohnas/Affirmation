@@ -95,22 +95,25 @@ function Counter({ navigation: { navigate } }) {
   const { useRealm, useQuery } = DBContext;
   const realmDB = useRealm();
   const affirmationDatas = useQuery(Affirmation);
+  const ids = affirmationDatas.map((obj) => obj._id);
+  console.log(affirmationDatas);
+  console.log(ids);
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   const [affirmationNum, setAffirmationNum] = useState(0);
   const firstData = affirmationDatas[0];
-  function handleAffirmationData() {
-    realmDB.write(() => {
-      firstData['datas'].push({
-        date: new Date,
-        success: true,
-      });
-    });
-  }
+  // function handleAffirmationData() {
+  //   realmDB.write(() => {
+  //     firstData['datas'].push({
+  //       date: new Date,
+  //       success: true,
+  //     });
+  //   });
+  // }
   useEffect(() => {
     if(affirmationNum === firstData.goal) {
       console.log('save?')
-      handleAffirmationData();
+      // handleAffirmationData();
     } else {
       console.log(affirmationNum);
     }
