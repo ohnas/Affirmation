@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components/native';
 import { Fontisto } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, Dimensions } from 'react-native';
+import { Text, Dimensions, Alert } from 'react-native';
+import { DBContext, Affirmation } from '../context';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -76,6 +77,7 @@ const AffirmationBody = styled.View`
 `;
 const AffirmationBodyBox = styled.Pressable`
   flex: 6;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 `;
@@ -90,8 +92,29 @@ const AffirmationFooter = styled.View`
 `;
 
 function Counter({ navigation: { navigate } }) {
+  const { useRealm, useQuery } = DBContext;
+  const realmDB = useRealm();
+  const affirmationDatas = useQuery(Affirmation);
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
+  const [affirmationNum, setAffirmationNum] = useState(0);
+  const firstData = affirmationDatas[0];
+  function handleAffirmationData() {
+    realmDB.write(() => {
+      firstData['datas'].push({
+        date: new Date,
+        success: true,
+      });
+    });
+  }
+  useEffect(() => {
+    if(affirmationNum === firstData.goal) {
+      console.log('save?')
+      handleAffirmationData();
+    } else {
+      console.log(affirmationNum);
+    }
+  }, [affirmationNum]);
   return(
     <Container>
       <Header>
@@ -122,19 +145,29 @@ function Counter({ navigation: { navigate } }) {
         :
         <>
           <AffirmationHeader>
-            <Text style={{fontSize: 20, color:'white'}}>1. Hello world</Text>
+            {affirmationDatas.length === 0 ? 
+              <Text style={{fontSize: 20, color:'white'}}>No data.</Text>
+              :
+              <Text style={{fontSize: 20, color:'white'}}>{affirmationDatas[0].message}</Text>
+            }
           </AffirmationHeader>
           <AffirmationBody>
-            <AffirmationBodyBox onPress={() => setCounterNum((prev) => prev + 1 )}>
+            <AffirmationBodyBox onPress={() => setAffirmationNum((prev) => prev + 1 )}>
               <AffirmationBodyText>{counterNum}</AffirmationBodyText>
+              <AffirmationBodyText>/</AffirmationBodyText>
+              {affirmationDatas.length === 0 ? 
+                <AffirmationBodyText>Goal</AffirmationBodyText>
+                :
+                <AffirmationBodyText>{affirmationDatas[0].goal}</AffirmationBodyText>
+              }
             </AffirmationBodyBox>
             <AffirmationFooter>
-              <Fontisto name="spinner-rotate-forward" size={36} color="black" style={{marginRight:10}} onPress={() => setCounterNum(0)} />
+              <Fontisto name="spinner-rotate-forward" size={36} color="black" style={{marginRight:10}} onPress={() => setAffirmationNum(0)} />
               <AntDesign name="minuscircleo" size={36} color="black" style={{marginLeft:10}} onPress={() => {
-                if(counterNum === 0) {
-                  setCounterNum(0);
+                if(affirmationNum === 0) {
+                  setAffirmationNum(0);
                 } else {
-                  setCounterNum((prev) => prev - 1 );
+                  setAffirmationNum((prev) => prev - 1 );
                 }
                 }} 
               />
