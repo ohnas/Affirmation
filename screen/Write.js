@@ -109,6 +109,9 @@ function Write() {
           _id: maxId,
           message: message,
           goal: Number(goal),
+          datas: [{
+            date : new Date,
+          }]
         });
       });
       setMessage("");

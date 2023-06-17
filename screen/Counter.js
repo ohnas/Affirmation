@@ -96,34 +96,36 @@ const AffirmationFooter = styled.View`
 `;
 
 function Counter({ navigation: { navigate } }) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const { useRealm, useQuery } = DBContext;
   const realmDB = useRealm();
   const affirmationDatas = useQuery(Affirmation);
-  const notAchievedAffirmationDatas = affirmationDatas.filtered('datas.@size == 0');
+  const notAchievedAffirmationDatas = affirmationDatas.filtered('datas.date == $0 && datas.success == false', today);
   const notAchievedAffirmationDatasLength = notAchievedAffirmationDatas.length - 1;
   console.log(notAchievedAffirmationDatas);
   console.log(notAchievedAffirmationDatasLength);
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   const [affirmationNum, setAffirmationNum] = useState(0);
-  const [affirmationData, setAffirmationData] = useState(notAchievedAffirmationDatas[0]);
-  function handleAffirmationData() {
-    realmDB.write(() => {
-      affirmationData['datas'].push({
-        date: new Date,
-        success: true,
-      });
-    });
-  }
-  useEffect(() => {
-    let num = 0;
-    if(affirmationNum === affirmationData.goal) {
-      handleAffirmationData();
-      num += 1;
-      setAffirmationNum(0);
-      setAffirmationData(notAchievedAffirmationDatas[num])
-    }
-  }, [affirmationNum]);
+  const [affirmationData, setAffirmationData] = useState(affirmationDatas[0]);
+  // function handleAffirmationData() {
+  //   realmDB.write(() => {
+  //     affirmationData['datas'].push({
+  //       date: new Date,
+  //       success: true,
+  //     });
+  //   });
+  // }
+  // useEffect(() => {
+  //   let num = 0;
+  //   if(affirmationNum === affirmationData.goal) {
+  //     handleAffirmationData();
+  //     num += 1;
+  //     setAffirmationNum(0);
+  //     setAffirmationData(notAchievedAffirmationDatas[num])
+  //   }
+  // }, [affirmationNum]);
   return(
     <Container>
       <Header>
