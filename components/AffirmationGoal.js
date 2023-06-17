@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text } from "react-native";
 import { styled } from 'styled-components/native';
 
-const Container = styled.View``;
+const Goal = styled.Text`
+    font-size: 100px;
+`;
 
 function AffirmationGoal({ goal }) {
     return(
-        <Container><Text>{goal}</Text></Container>
+        <Goal>{goal}</Goal>
     );
 }
 

@@ -101,22 +101,26 @@ function Counter({ navigation: { navigate } }) {
   const affirmationDatas = useQuery(Affirmation);
   const notAchievedAffirmationDatas = affirmationDatas.filtered('datas.@size == 0');
   const notAchievedAffirmationDatasLength = notAchievedAffirmationDatas.length - 1;
+  console.log(notAchievedAffirmationDatas);
+  console.log(notAchievedAffirmationDatasLength);
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   const [affirmationNum, setAffirmationNum] = useState(0);
   const [affirmationData, setAffirmationData] = useState(notAchievedAffirmationDatas[0]);
-  // function handleAffirmationData() {
-  //   realmDB.write(() => {
-  //     firstData['datas'].push({
-  //       date: new Date,
-  //       success: true,
-  //     });
-  //   });
-  // }
+  function handleAffirmationData() {
+    realmDB.write(() => {
+      affirmationData['datas'].push({
+        date: new Date,
+        success: true,
+      });
+    });
+  }
   useEffect(() => {
     let num = 0;
     if(affirmationNum === affirmationData.goal) {
+      handleAffirmationData();
       num += 1;
+      setAffirmationNum(0);
       setAffirmationData(notAchievedAffirmationDatas[num])
     }
   }, [affirmationNum]);

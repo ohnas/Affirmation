@@ -1,12 +1,14 @@
 import React from 'react';
-import { Text } from "react-native";
 import { styled } from 'styled-components/native';
 
-const Container = styled.View``;
+const Message = styled.Text`
+    font-size: 20px;
+    color: white;
+`;
 
 function AffirmationMessage({ message }) {
     return(
-        <Container><Text>{message}</Text></Container>
+        <Message>{message}</Message>
     );
 }
 
