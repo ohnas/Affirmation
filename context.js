@@ -18,7 +18,7 @@ class Data extends Realm.Object {
   static schema = {
     name: 'Data',
     properties: {
-      date: 'date',
+      date: 'string',
       success: { type: 'bool', default: false, },
     },
   };

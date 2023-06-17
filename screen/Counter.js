@@ -97,24 +97,27 @@ const AffirmationFooter = styled.View`
 
 function Counter({ navigation: { navigate } }) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  let month = today.getMonth() + 1;
+  if(month < 10) {
+    month = `0${month}`
+  }
+  let date = today.getDate();
+  if(date < 10) {
+    date = `0${date}`
+  }
+  const todayValue = `${today.getFullYear()}-${month}-${date}`;
   const { useRealm, useQuery } = DBContext;
   const realmDB = useRealm();
   const affirmationDatas = useQuery(Affirmation);
-  const notAchievedAffirmationDatas = affirmationDatas.filtered('datas.date == $0 && datas.success == false', today);
-  const notAchievedAffirmationDatasLength = notAchievedAffirmationDatas.length - 1;
-  console.log(notAchievedAffirmationDatas);
-  console.log(notAchievedAffirmationDatasLength);
+  // const notAchievedAffirmationDatas = affirmationDatas.filtered('datas.date >= $0 && datas.success == false', today);
+  // const notAchievedAffirmationDatasLength = notAchievedAffirmationDatas.length - 1;
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   const [affirmationNum, setAffirmationNum] = useState(0);
-  const [affirmationData, setAffirmationData] = useState(affirmationDatas[0]);
+  // const [affirmationData, setAffirmationData] = useState(notAchievedAffirmationDatas[3]);
   // function handleAffirmationData() {
   //   realmDB.write(() => {
-  //     affirmationData['datas'].push({
-  //       date: new Date,
-  //       success: true,
-  //     });
+  //     affirmationData['datas']['success'] = true;
   //   });
   // }
   // useEffect(() => {
@@ -126,6 +129,7 @@ function Counter({ navigation: { navigate } }) {
   //     setAffirmationData(notAchievedAffirmationDatas[num])
   //   }
   // }, [affirmationNum]);
+  // console.log(affirmationData.datas);
   return(
     <Container>
       <Header>
@@ -159,7 +163,7 @@ function Counter({ navigation: { navigate } }) {
             {affirmationDatas.length === 0 ? 
               <Text style={{fontSize: 20, color:'white'}}>No data.</Text>
               :
-              <AffirmationMessage message={affirmationData.message} />
+              <AffirmationMessage message={affirmationDatas[0].message} />
             }
           </AffirmationHeader>
           <AffirmationBody>
@@ -169,7 +173,7 @@ function Counter({ navigation: { navigate } }) {
               {affirmationDatas.length === 0 ? 
                 <AffirmationBodyText>Goal</AffirmationBodyText>
                 :
-                <AffirmationGoal goal={affirmationData.goal} />
+                <AffirmationGoal goal={affirmationDatas[0].goal} />
               }
             </AffirmationBodyBox>
             <AffirmationFooter>
