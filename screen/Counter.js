@@ -95,6 +95,7 @@ const AffirmationFooter = styled.View`
   align-items: center;
 `;
 
+let num = 0;
 function Counter({ navigation: { navigate } }) {
   const today = new Date();
   let month = today.getMonth() + 1;
@@ -114,22 +115,32 @@ function Counter({ navigation: { navigate } }) {
   const [selected, setSelected] = useState(false);
   const [counterNum, setCounterNum] = useState(0);
   const [affirmationNum, setAffirmationNum] = useState(0);
-  // const [affirmationData, setAffirmationData] = useState(notAchievedAffirmationDatas[3]);
+  const [affirmationData, setAffirmationData] = useState(affirmationDatas[num]);
   // function handleAffirmationData() {
-  //   realmDB.write(() => {
-  //     affirmationData['datas']['success'] = true;
-  //   });
+  //   // realmDB.write(() => {
+  //   //   let data = affirmationData.datas.find((element) => element.date === todayValue && element.success === false );
+  //   //   if(data === undefined) {
+  //   //     affirmationData.datas.push({
+  //   //       date: todayValue,
+  //   //       success: true,
+  //   //     });
+  //   //   }
+  //   // });
+  //   console.log('im here');
+  //   console.log(affirmationDataIndex);
   // }
-  // useEffect(() => {
-  //   let num = 0;
-  //   if(affirmationNum === affirmationData.goal) {
-  //     handleAffirmationData();
-  //     num += 1;
-  //     setAffirmationNum(0);
-  //     setAffirmationData(notAchievedAffirmationDatas[num])
-  //   }
-  // }, [affirmationNum]);
-  // console.log(affirmationData.datas);
+  useEffect(() => {
+    if(affirmationDatas.length !== 0) {
+      if(affirmationNum === affirmationData.goal) {
+        num += 1;
+        setAffirmationNum(0);
+        // handleAffirmationData();
+        setAffirmationData(affirmationDatas[num]);
+      }
+    } else {
+      return;
+    }
+  }, [affirmationNum]);
   return(
     <Container>
       <Header>
@@ -163,7 +174,7 @@ function Counter({ navigation: { navigate } }) {
             {affirmationDatas.length === 0 ? 
               <Text style={{fontSize: 20, color:'white'}}>No data.</Text>
               :
-              <AffirmationMessage message={affirmationDatas[0].message} />
+              <AffirmationMessage message={affirmationData.message} />
             }
           </AffirmationHeader>
           <AffirmationBody>
@@ -173,7 +184,7 @@ function Counter({ navigation: { navigate } }) {
               {affirmationDatas.length === 0 ? 
                 <AffirmationBodyText>Goal</AffirmationBodyText>
                 :
-                <AffirmationGoal goal={affirmationDatas[0].goal} />
+                <AffirmationGoal goal={affirmationData.goal} />
               }
             </AffirmationBodyBox>
             <AffirmationFooter>
